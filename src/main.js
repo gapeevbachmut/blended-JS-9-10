@@ -22,13 +22,12 @@
 //
 
 import { nanoid } from 'nanoid';
-// model.id = nanoid() //=> "V1StGXR8_Z5jdHi6B-myT"
 
 const form = document.querySelector('.header-form');
 form.addEventListener('submit', handleSubmit);
 
 const list = document.querySelector('.tasks-list');
-list.addEventListener('click', handkeClick);
+list.addEventListener('click', handleClick);
 
 const LS_KEY = 'tascs';
 
@@ -54,6 +53,7 @@ function handleSubmit(event) {
 }
 
 visibleDatas(datas);
+
 function visibleDatas(datas) {
   const markupItems = datas.map(markupItem).join('');
   console.log(markupItems);
@@ -71,13 +71,64 @@ function markupItem({ title, description, id }) {
   `;
 }
 
-function handkeClick(event) {
+function handleClick(event) {
   if (event.target.classList.contains('task-list-item-btn')) {
     console.log('ok');
     // localStorage.removeItem(event.target);
     const currentId = event.target.closest('[data-id]').dataset.id;
     // console.log(event.target.closest('[data-id]').dataset.id);
     datas = datas.filter(({ id }) => id !== currentId);
-    // презаписати датас,
+    // презаписати датас, повторити запис
+    localStorage.setItem(LS_KEY, JSON.stringify(datas));
+    //видалити елемент
+    event.target.closest('.task-list-item').remove();
   }
+}
+//
+//
+//
+//
+//             додавання теми
+//
+//
+//
+//
+//
+//
+const body = document.querySelector('body');
+console.log(body);
+
+const themeBtn = document.querySelector('#themeToggle');
+console.log(themeBtn);
+
+//  класи .theme-dark і .theme-ligh
+
+themeBtn.addEventListener('click', handleClick2);
+
+function handleClick2(event) {
+  console.log('ok');
+  // body.classList.add('theme-light');
+  // body.classList.remove('theme-dark');
+  //  перевірку -  якщо 1 клас міняємо, якщо другий, знов міняємо
+
+  //////////////////////         1
+  //
+  if (body.classList.contains('theme-dark')) {
+    body.classList.add('theme-light');
+    body.classList.remove('theme-dark');
+  } else if (body.classList.contains('theme-light')) {
+    body.classList.add('theme-dark');
+    body.classList.remove('theme-light');
+  }
+  //////////////////////////           2
+  //
+  // body.classList.toggle('theme-light');
+  // body.classList.toggle('theme-dark');
+  //
+  /////////////////////                3
+  // if (body.classList.contains('theme-dark')) {
+  //   body.classList.replace('theme-dark', 'theme-light');
+  // } else {
+  //   body.classList.replace('theme-light', 'theme-dark');
+  // }
 }
